@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TrustAndroidTask</string>
+    <string name="welcome_to_mega_trust_jobs">Welcome to Mega Trust Jobs</string>
+    <string name="start">Start</string>
+    <string name="comapny_logo">comapny logo</string>
+    <string name="no_network_connectivity">No Network Connectivity</string>
 </resources>
