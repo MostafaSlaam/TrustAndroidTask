@@ -1,12 +1,11 @@
 package trust.androidtask.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import trust.androidtask.R
-import trust.androidtask.databinding.ItemRecyclerJobItemBinding
+import trust.androidtask.databinding.ItemRecyclerJobBinding
 import trust.androidtask.model.Job
 
 
@@ -17,10 +16,10 @@ class RecyclerJobsAdapter(
         val inflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.item_recycler_job_item,
+            R.layout.item_recycler_job,
             parent,
             false
-        ) as ItemRecyclerJobItemBinding
+        ) as ItemRecyclerJobBinding
         return RecyclerJobsAdapter.ViewHolder(binding)
     }
 
@@ -33,6 +32,14 @@ class RecyclerJobsAdapter(
         holder.binding.root.setOnClickListener {
             listener.onRecyclerItemClickListener(holder.adapterPosition)
         }
+        holder.binding.btnToggoleFav.setOnClickListener {
+            if (item.isFav)
+                holder.binding.btnToggoleFav.setImageResource(R.drawable.unlike_icon)
+            else
+                holder.binding.btnToggoleFav.setImageResource(R.drawable.like_icon)
+            item.isFav = !item.isFav!!
+            listener.toggleFavourite(holder.adapterPosition)
+        }
     }
 
     fun setList(list: ArrayList<Job>) {
@@ -40,7 +47,7 @@ class RecyclerJobsAdapter(
         notifyDataSetChanged()
     }
 
-    class ViewHolder(var binding: ItemRecyclerJobItemBinding) :
+    class ViewHolder(var binding: ItemRecyclerJobBinding) :
         RecyclerView.ViewHolder(binding.root) {
     }
 

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import org.koin.android.ext.android.get
 import trust.androidtask.R
 import trust.androidtask.adapter.OnRecyclerItemClickListener
@@ -35,7 +34,7 @@ class JobsFragment:Fragment(R.layout.fragment_jobs) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        jobsViewModel= JobsViewModel(repository = get())
+        jobsViewModel= JobsViewModel(repository = get(),dao = get())
         binding.viewModel = jobsViewModel
         jobsViewModel.stopRefresh.observe(viewLifecycleOwner, Observer {
             binding.swipeRefresh.isRefreshing=false
@@ -44,9 +43,14 @@ class JobsFragment:Fragment(R.layout.fragment_jobs) {
             override fun onRecyclerItemClickListener(position: Int) {
 
             }
+
+            override fun toggleFavourite(position: Int) {
+                jobsViewModel.addToFav(position)
+            }
         })
         binding.rvJobs.adapter=adapter
-        jobsViewModel.getAllJobs()
+        jobsViewModel.getAllJobsApi()
+//        jobsViewModel.getAllJobsDb()
         jobsViewModel.jobsList.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 if (it.isNotEmpty()) {

@@ -1,31 +1,28 @@
 package trust.androidtask.views.jobs
 
-import android.util.Log
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
-import trust.androidtask.model.Job
+import trust.androidtask.db.JobDao
 import trust.androidtask.repository.JobsRepository
 import trust.androidtask.util.AppResult
 import trust.androidtask.util.SingleLiveEvent
 
-class JobsViewModel(private val repository : JobsRepository):ViewModel() {
+class JobsViewModel(private val repository: JobsRepository, val dao: JobDao) : ViewModel() {
     val showLoading = ObservableBoolean()
     val stopRefresh = SingleLiveEvent<Any?>()
-    val jobsList = MutableLiveData<List<Job>?>()
-    val showError = SingleLiveEvent<String>()
+    var jobsList = dao.getAllJobs().asLiveData()
+    val showError = SingleLiveEvent<String?>()
 
-    fun getAllJobs() {
+    fun getAllJobsApi() {
         viewModelScope.launch {
             stopRefresh.call()
             showLoading.set(true)
-            val result =  repository.getAllJobs()
+            val result = repository.getAllJobs()
             showLoading.set(false)
             when (result) {
                 is AppResult.Success -> {
-                    jobsList.value = result.successData!!
+                    dao.addJobs(result.successData!!)
                     showError.value = null
 
                 }
@@ -34,5 +31,19 @@ class JobsViewModel(private val repository : JobsRepository):ViewModel() {
             }
         }
     }
+    fun addToFav(pos:Int)
+    {
+        viewModelScope.launch {
+            dao.updateFavJobs(jobsList.value!!)
+        }
+    }
+
+//    fun getAllJobsDb() {
+//        viewModelScope.launch {
+//            jobsList =
+//                dao.getAllJobs() as LiveData
+//
+//        }
+//    }
 
 }

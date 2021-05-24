@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/startFragment"
         android:name="trust.androidtask.views.start.StartFragment"
-        android:label="fragment_start"
+        android:label="Main"
         tools:layout="@layout/fragment_start">
 
         <action android:id="@+id/actionToJos"
@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/jobsFragment"
         android:name="trust.androidtask.views.jobs.JobsFragment"
-        android:label="fragment_jobs"
+        android:label="Jobs"
         tools:layout="@layout/fragment_jobs" />
     <fragment
         android:id="@+id/jobDetailsFragment"

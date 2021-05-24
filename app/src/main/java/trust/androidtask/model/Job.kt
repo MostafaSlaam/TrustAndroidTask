@@ -21,4 +21,5 @@ class Job :Serializable{
     var how_to_apply:String=""
     @Nullable
     var company_logo:String?=""
+    var isFav=false
 }
