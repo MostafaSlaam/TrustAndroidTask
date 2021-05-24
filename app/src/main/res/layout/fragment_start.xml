@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/start"
+                android:onClick="@{()->viewModel.onStartBtnClick()}"
                 />
         </LinearLayout>
 </layout>

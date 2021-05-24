@@ -1,5 +1,6 @@
 package trust.androidtask.model
 
+import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
@@ -12,10 +13,12 @@ class Job :Serializable{
     var url:String=""
     var created_at:String=""
     var company:String=""
-    var company_url:String=""
+    @Nullable
+    var company_url:String?=""
     var location:String=""
     var title:String=""
     var description:String=""
     var how_to_apply:String=""
-    var company_logo:String=""
+    @Nullable
+    var company_logo:String?=""
 }

@@ -3,20 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     tool:context="trust.androidtask.views.jobs.JobsFragment">
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewModel"
+            type="trust.androidtask.views.jobs.JobsViewModel" />
+    </data>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <LinearLayout
+        android:layout_height="match_parent"
+        app:onRefreshListener="@{() -> viewModel.getAllJobs()}"
+        >
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_jobs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="@{viewModel.showError == null ? View.VISIBLE : View.GONE}"
             android:orientation="vertical"
             android:layout_margin="5dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             />
-    </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.showLoading ? View.VISIBLE : View.GONE}"
+            android:layout_centerInParent="true" />
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.showError}"
+            android:layout_centerInParent="true"
+            android:visibility="@{viewModel.showError == null ? View.GONE : View.VISIBLE}"
+             />
+    </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

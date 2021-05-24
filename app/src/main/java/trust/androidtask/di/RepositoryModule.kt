@@ -1,4 +1,4 @@
-package aish.android.countries.di
+package trust.androidtask.di
 
 import android.content.Context
 import org.koin.android.ext.koin.androidContext

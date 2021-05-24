@@ -9,10 +9,13 @@
         android:id="@+id/startFragment"
         android:name="trust.androidtask.views.start.StartFragment"
         android:label="fragment_start"
-        tools:layout="@layout/fragment_start"
+        tools:layout="@layout/fragment_start">
 
+        <action android:id="@+id/actionToJos"
+            app:destination="@id/jobsFragment"
+            />
 
-        />
+        </fragment>
     <fragment
         android:id="@+id/jobsFragment"
         android:name="trust.androidtask.views.jobs.JobsFragment"

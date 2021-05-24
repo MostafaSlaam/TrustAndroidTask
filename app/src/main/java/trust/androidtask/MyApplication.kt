@@ -1,6 +1,5 @@
 package trust.androidtask
 
-import aish.android.countries.di.repositoryModule
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
@@ -14,6 +13,7 @@ import org.koin.core.context.startKoin
 import trust.androidtask.di.apiModule
 import trust.androidtask.di.databaseModule
 import trust.androidtask.di.networkModule
+import trust.androidtask.di.repositoryModule
 import java.util.*
 
 class MyApplication : Application() {
