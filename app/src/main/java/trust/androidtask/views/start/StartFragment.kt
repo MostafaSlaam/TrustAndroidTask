@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import org.koin.android.ext.android.get
@@ -19,29 +21,14 @@ import trust.androidtask.databinding.FragmentStartBinding
 class StartFragment : Fragment(R.layout.fragment_start) {
     private lateinit var startViewModel :StartViewModel
     private lateinit var binding: FragmentStartBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_start, container, false
-        )
-        val mRootView = binding.root
-        binding.lifecycleOwner = this
-        return mRootView
-    }
-
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        startViewModel= StartViewModel(repository = get())
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding= FragmentStartBinding.bind(view)
+        startViewModel= ViewModelProvider(this).get(StartViewModel::class.java)
         binding.viewModel = startViewModel
-        startViewModel.getAllCountries()
         startViewModel.navigateToJobs.observe(viewLifecycleOwner, Observer {
             findNavController().navigate(R.id.jobsFragment)
         })
-
     }
+
 }

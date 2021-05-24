@@ -10,10 +10,7 @@ import androidx.multidex.MultiDex
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-import trust.androidtask.di.apiModule
-import trust.androidtask.di.databaseModule
-import trust.androidtask.di.networkModule
-import trust.androidtask.di.repositoryModule
+import trust.androidtask.di.*
 import java.util.*
 
 class MyApplication : Application() {

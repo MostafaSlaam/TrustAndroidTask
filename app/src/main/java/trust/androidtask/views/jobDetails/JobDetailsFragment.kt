@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import org.koin.android.ext.android.get
 import trust.androidtask.R
 import trust.androidtask.adapter.OnRecyclerItemClickListener
@@ -15,27 +17,21 @@ import trust.androidtask.databinding.FragmentJobsBinding
 import trust.androidtask.databinding.FragmentJobsDetailsBinding
 import trust.androidtask.model.Job
 import trust.androidtask.views.jobs.JobsViewModel
+import trust.androidtask.views.jobs.JobsViewModelFactory
 
 class JobDetailsFragment:Fragment(R.layout.fragment_jobs_details) {
     private lateinit var viewModel : JobDetailsViewModel
     private lateinit var binding: FragmentJobsDetailsBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_jobs_details, container, false
-        )
-        val mRootView = binding.root
-        binding.lifecycleOwner = this
-        return mRootView
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel= JobDetailsViewModel(repository = get(),dao = get())
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding= FragmentJobsDetailsBinding.bind(view)
+
+        viewModel= ViewModelProvider(
+            this,
+            JobDetailsViewModelFactory(get(),get())
+        ).get(JobDetailsViewModel::class.java)
         binding.viewModel = viewModel
         var index=arguments!!.getInt("job_index")
 
@@ -43,9 +39,11 @@ class JobDetailsFragment:Fragment(R.layout.fragment_jobs_details) {
             if (it != null) {
                 if (it.isNotEmpty()) {
                     viewModel.jobItem.value=it.get(index)
+                    binding.invalidateAll()
                 }
             }
         })
-
     }
+
+
 }

@@ -12,14 +12,12 @@ import trust.androidtask.util.SingleLiveEvent
 class JobDetailsViewModel(private val repository: JobsRepository, val dao: JobDao) : ViewModel() {
     var jobsList = dao.getAllJobs().asLiveData()
     var jobItem=MutableLiveData<Job>()
-    val refreshView = SingleLiveEvent<Any?>()
     fun toggleFav()
     {
         jobItem.value!!.isFav=!jobItem.value!!.isFav
         viewModelScope.launch {
             dao.updateFavJobs(jobsList.value!!)
         }
-//        refreshView.call()
     }
 
 

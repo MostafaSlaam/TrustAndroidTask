@@ -1,12 +1,11 @@
 package trust.androidtask.views.jobs
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import org.koin.android.ext.android.get
 import trust.androidtask.R
@@ -19,23 +18,14 @@ class JobsFragment:Fragment(R.layout.fragment_jobs) {
     private lateinit var jobsViewModel : JobsViewModel
     private lateinit var binding: FragmentJobsBinding
     private lateinit var adapter:RecyclerJobsAdapter
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_jobs, container, false
-        )
-        val mRootView = binding.root
-        binding.lifecycleOwner = this
-        return mRootView
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        jobsViewModel= JobsViewModel(repository = get(),dao = get())
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding= FragmentJobsBinding.bind(view)
+        jobsViewModel= ViewModelProvider(
+            this,
+            JobsViewModelFactory(get(),get())
+        ).get(JobsViewModel::class.java)
         binding.viewModel = jobsViewModel
         jobsViewModel.stopRefresh.observe(viewLifecycleOwner, Observer {
             binding.swipeRefresh.isRefreshing=false
@@ -62,6 +52,7 @@ class JobsFragment:Fragment(R.layout.fragment_jobs) {
                     jobsViewModel.getAllJobsApi()
             }
         })
-
     }
+
+
 }
