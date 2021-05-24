@@ -1,7 +1,12 @@
 package trust.androidtask.views.jobs
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +18,7 @@ import trust.androidtask.adapter.OnRecyclerItemClickListener
 import trust.androidtask.adapter.RecyclerJobsAdapter
 import trust.androidtask.databinding.FragmentJobsBinding
 import trust.androidtask.model.Job
+import trust.androidtask.util.onQueryTextChanged
 
 class JobsFragment:Fragment(R.layout.fragment_jobs) {
     private lateinit var jobsViewModel : JobsViewModel
@@ -30,9 +36,13 @@ class JobsFragment:Fragment(R.layout.fragment_jobs) {
         jobsViewModel.stopRefresh.observe(viewLifecycleOwner, Observer {
             binding.swipeRefresh.isRefreshing=false
         })
+        jobsViewModel.refreshView.observe(viewLifecycleOwner, Observer {
+            binding.invalidateAll()
+        })
         adapter= RecyclerJobsAdapter(ArrayList(),object :OnRecyclerItemClickListener{
             override fun onRecyclerItemClickListener(position: Int) {
                 var bundle=Bundle()
+                bundle.putString("search_word",jobsViewModel.searchQuery.value)
                 bundle.putInt("job_index",position)
                 findNavController().navigate(R.id.jobDetailsFragment,bundle)
             }
@@ -48,10 +58,30 @@ class JobsFragment:Fragment(R.layout.fragment_jobs) {
                 if (it.isNotEmpty()) {
                     adapter.setList(it as ArrayList<Job>)
                 }
+                else if (jobsViewModel.searchQuery.value.isNotEmpty())
+                {
+                    jobsViewModel.searchQuery.value=""
+                    showToast()
+                }
                 else
                     jobsViewModel.getAllJobsApi()
             }
         })
+        setHasOptionsMenu(true)
+    }
+
+    fun showToast()
+    {
+        Toast.makeText(requireContext(),getString(R.string.no_jobs),Toast.LENGTH_SHORT).show()
+    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_fragment_jobs,menu)
+        val searchItem=menu.findItem(R.id.search_actioin)
+        val searchView=searchItem.actionView as SearchView
+        searchView.onQueryTextChanged{
+            jobsViewModel.searchQuery.value=it
+        }
+
     }
 
 

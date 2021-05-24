@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TrustAndroidTask</string>
+    <string name="app_name">Jobs app</string>
     <string name="welcome_to_mega_trust_jobs">Welcome to Mega Trust Jobs</string>
     <string name="start">Start</string>
     <string name="comapny_logo">comapny logo</string>
@@ -10,4 +10,6 @@
     <string name="job_url">Job Url: %s</string>
     <string name="job_type">Job type: %s</string>
     <string name="job_title">Job title: %s</string>
+    <string name="search">search</string>
+    <string name="no_jobs">No Jobs Found</string>
 </resources>

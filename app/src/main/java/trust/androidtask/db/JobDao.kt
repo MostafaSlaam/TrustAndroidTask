@@ -14,4 +14,7 @@ interface JobDao {
 
     @Update()
     suspend fun updateFavJobs(jobs:List<Job>)
+
+    @Query("select * from job_table where company like '%' || :companyName || '%' or  title like '%' || :jobTitle || '%'")
+    fun getSearchJobs(companyName:String,jobTitle:String): Flow<List<Job>>
 }

@@ -34,7 +34,7 @@ class JobDetailsFragment:Fragment(R.layout.fragment_jobs_details) {
         ).get(JobDetailsViewModel::class.java)
         binding.viewModel = viewModel
         var index=arguments!!.getInt("job_index")
-
+        viewModel.searchQuery.value=arguments!!.getString("search_word")!!
         viewModel.jobsList.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 if (it.isNotEmpty()) {
