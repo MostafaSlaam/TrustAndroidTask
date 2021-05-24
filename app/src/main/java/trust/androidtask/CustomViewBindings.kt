@@ -1,8 +1,11 @@
 package trust.androidtask
 
 import android.graphics.drawable.Drawable
+import android.os.Build
+import android.text.Html
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,6 +17,17 @@ class CustomViewBindings {
     companion object {
 
 
+        @BindingAdapter("htmlText")
+        @JvmStatic
+        fun setHtmlTextValue(textView: TextView, htmlText: String?) {
+            if (htmlText == null) return
+            val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(htmlText, Html.FROM_HTML_MODE_LEGACY)
+            } else {
+                Html.fromHtml(htmlText)
+            }
+            textView.text = result
+        }
 
 
         @BindingAdapter("imageUrlRect")

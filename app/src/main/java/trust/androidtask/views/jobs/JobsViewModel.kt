@@ -38,12 +38,5 @@ class JobsViewModel(private val repository: JobsRepository, val dao: JobDao) : V
         }
     }
 
-//    fun getAllJobsDb() {
-//        viewModelScope.launch {
-//            jobsList =
-//                dao.getAllJobs() as LiveData
-//
-//        }
-//    }
 
 }

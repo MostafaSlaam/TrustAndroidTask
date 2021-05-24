@@ -4,4 +4,10 @@
     <string name="start">Start</string>
     <string name="comapny_logo">comapny logo</string>
     <string name="no_network_connectivity">No Network Connectivity</string>
+    <string name="description">Description</string>
+    <string name="company_url">Company Url: %s</string>
+    <string name="company_name">Company title: %s</string>
+    <string name="job_url">Job Url: %s</string>
+    <string name="job_type">Job type: %s</string>
+    <string name="job_title">Job title: %s</string>
 </resources>

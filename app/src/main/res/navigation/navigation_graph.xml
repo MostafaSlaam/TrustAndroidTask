@@ -24,6 +24,6 @@
     <fragment
         android:id="@+id/jobDetailsFragment"
         android:name="trust.androidtask.views.jobDetails.JobDetailsFragment"
-        android:label="fragment_jobs_details"
+        android:label="Job Details"
         tools:layout="@layout/fragment_jobs_details" />
 </navigation>

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import org.koin.android.ext.android.get
 import trust.androidtask.R
 import trust.androidtask.adapter.OnRecyclerItemClickListener
@@ -41,7 +42,9 @@ class JobsFragment:Fragment(R.layout.fragment_jobs) {
         })
         adapter= RecyclerJobsAdapter(ArrayList(),object :OnRecyclerItemClickListener{
             override fun onRecyclerItemClickListener(position: Int) {
-
+                var bundle=Bundle()
+                bundle.putInt("job_index",position)
+                findNavController().navigate(R.id.jobDetailsFragment,bundle)
             }
 
             override fun toggleFavourite(position: Int) {
@@ -49,13 +52,14 @@ class JobsFragment:Fragment(R.layout.fragment_jobs) {
             }
         })
         binding.rvJobs.adapter=adapter
-        jobsViewModel.getAllJobsApi()
-//        jobsViewModel.getAllJobsDb()
+
         jobsViewModel.jobsList.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 if (it.isNotEmpty()) {
                     adapter.setList(it as ArrayList<Job>)
                 }
+                else
+                    jobsViewModel.getAllJobsApi()
             }
         })
 

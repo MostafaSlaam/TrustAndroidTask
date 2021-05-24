@@ -1,10 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="trust.androidtask.views.jobDetails.JobDetailsFragment">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-        </RelativeLayout>
+
+    <data>
+        <import type="android.text.Html" />
+        <variable
+            name="viewModel"
+            type="trust.androidtask.views.jobDetails.JobDetailsViewModel" />
+    </data>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_companyLogo"
+            imageUrlRect="@{viewModel.jobItem.company_logo}"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:contentDescription="@string/comapny_logo"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_launcher_background" />
+
+        <ImageView
+            android:id="@+id/btn_toggoleFav"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="15dp"
+            android:onClick="@{()->viewModel.toggleFav()}"
+            android:src="@{viewModel.jobItem.isFav()?@drawable/like_icon:@drawable/unlike_icon}"
+
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@id/iv_companyLogo"
+            >
+
+            <TextView
+                android:id="@+id/tv_companyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@{@string/company_name(viewModel.jobItem.company)}"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_jobTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@{@string/job_title(viewModel.jobItem.title)}"
+                android:textSize="16sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@{@string/job_type(viewModel.jobItem.type)}"
+                android:textSize="16sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textIsSelectable="true"
+                android:text="@{@string/job_url(viewModel.jobItem.url)}"
+                android:textSize="16sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textIsSelectable="true"
+                android:text="@{@string/company_url(viewModel.jobItem.company_url)}"
+                android:textSize="16sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@string/description"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textIsSelectable="true"
+                app:htmlText="@{viewModel.jobItem.description}"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+    </ScrollView>
 </layout>
